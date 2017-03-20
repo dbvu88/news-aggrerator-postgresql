@@ -29,6 +29,7 @@ get "/articles" do
 end
 
 get "/articles/new" do
+  @errors_message = []
   erb :new
 end
 
@@ -46,12 +47,10 @@ post "/create" do
   if article.valid?
     article.save
     redirect "/articles"
-  elsif !article.title.empty? && article.url.empty? && article.description.empty?
-    @title = article.title
-    erb :new
   else
+    @title = article.title
     @errors_message = article.errors_message
-    erb :errors
+    erb :new
   end
 
 end
